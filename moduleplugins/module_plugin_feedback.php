@@ -34,7 +34,21 @@ class module_plugin_feedback extends module_plugin_base {
     }
 
     protected function set_module_instance_params() {
-        $this->moduleobj->multiple_submit = 0;
+        if (isset($this->paramobj->multiple_submit)) {
+            $this->moduleobj->multiple_submit = (int)$this->paramobj->multiple_submit;
+        } else {
+            $this->moduleobj->multiple_submit = 0;
+        }
+        if (isset($this->paramobj->anonymous)) {
+            $this->moduleobj->anonymous = (int)$this->paramobj->anonymous;
+        } else {
+            $this->moduleobj->anonymous = 1;
+        }
+        if (isset($this->paramobj->email_notification)) {
+            $this->moduleobj->email_notification = (int)$this->paramobj->email_notification;
+        } else {
+            $this->moduleobj->email_notification = 0;
+        }
         $this->moduleobj->autonumbering = 0;
         $this->moduleobj->page_after_submit = '';
 
@@ -54,6 +68,16 @@ class module_plugin_feedback extends module_plugin_base {
         if (empty($paramsxmlobj->title) || empty($paramsxmlobj->description) || (int)$paramsxmlobj->template < 1) {
             return false;
         }
+        if (isset($paramsxmlobj->multiple_submit) && (int)$paramsxmlobj->multiple_submit != 0 && (int)$paramsxmlobj->multiple_submit != 1) {
+            return false;
+        }
+        if (isset($paramsxmlobj->anonymous) && (int)$paramsxmlobj->anonymous != 1 && (int)$paramsxmlobj->anonymous != 2) {
+            return false;
+        }
+        if (isset($paramsxmlobj->email_notification) && (int)$paramsxmlobj->email_notification != 0 && (int)$paramsxmlobj->email_notification != 1) {
+            return false;
+        }
+
         return true;
     }
 }

@@ -26,4 +26,4 @@
 $string['pluginname'] = 'Course-Module Add';
 $string['addmodule'] = 'Add module to course(s)';
 
-$plugin->version = 2014081900;
+$plugin->version = 2016021200;
