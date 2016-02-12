@@ -10,3 +10,6 @@ The block can optionally take a CSV file of permissions overrides so that the de
 The block checks for the existance of modules of the same type and name on each course and depending on the option selected will skip the course, add a new instance of the module, or replace the existing instance.
 
 It is also possible to specify whether each module should be added at the start or end of the first section and whether it should be initially visible or not.
+
+
+The plugin should be installed in a directory named module_add within the Moodle blocks directory.
