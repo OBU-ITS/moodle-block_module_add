@@ -11,5 +11,5 @@ The block checks for the existance of modules of the same type and name on each 
 
 It is also possible to specify whether each module should be added at the start or end of the first section and whether it should be initially visible or not.
 
-
+## Installation
 The plugin should be installed in a directory named module_add within the Moodle blocks directory.
