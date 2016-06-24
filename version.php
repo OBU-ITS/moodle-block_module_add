@@ -16,7 +16,7 @@
 /**
  * Bulk course-module addition block
  *
- * @package    block_bulk_course-module_addition
+ * @package    block_module_add
  * @author     Peter Andrew
  * @copyright  2016, Oxford Brookes University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,9 +26,9 @@
 $string['pluginname'] = 'Course-Module Add';
 $string['addmodule'] = 'Add module to course(s)';
 
-$plugin->component = 'block_bulk_course-module_addition'; // Full name of the plugin (used for diagnostics): plugintype_pluginname
-$plugin->version  = 2016062300;   // The (date) version of this module + 2 extra digital for daily versions
+$plugin->component = 'block_module_add'; // Full name of the plugin (used for diagnostics): plugintype_pluginname
+$plugin->version  = 2016062400;   // The (date) version of this module + 2 extra digital for daily versions
 $plugin->requires = 2012120300;   // Requires this Moodle version - at least 2.0
 $plugin->cron     = 0;
-$plugin->release = 'v1.0.1';
+$plugin->release = 'v1.0.2';
 $plugin->maturity = MATURITY_STABLE;
