@@ -1,5 +1,6 @@
 <?php
 
+
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -12,7 +13,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
  * Bulk course-module addition block
  *
@@ -194,7 +194,9 @@ class course_mod_add {
         if ($atstart) {
             if (!$section = $DB->get_record('course_sections', array('course'=>$newcm->course, 'section'=>$newcm->section))) {
                 // Section doesn't already exist so create it in normal manner
-                $sectionid = add_mod_to_section($newcm);
+               // $sectionid = add_mod_to_section($newcm); JAC change 20160809
+               // requires course_add_cm_to_section($courseorid, $cmid, $sectionnum, $beforemod = null)
+                $sectionid = course_add_cm_to_section($newcm->course, $newcm->module, $newcm->section);
             } else {
                 // Moodle's add_mod_to_section add before functionality is broken so we have to do this here
                 $section->sequence = trim($section->sequence);
@@ -207,7 +209,8 @@ class course_mod_add {
                 $sectionid = $section->id;
             }
         } else {
-            $sectionid = add_mod_to_section($newcm);
+           // $sectionid = add_mod_to_section($newcm); JAC change 20160809
+            $sectionid = course_add_cm_to_section($newcm->course, $newcm->module, $newcm->section);
         }
         $DB->set_field('course_modules', 'section', $sectionid, array('id'=>$newcm->coursemodule));
 
