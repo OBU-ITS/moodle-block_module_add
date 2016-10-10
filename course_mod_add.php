@@ -196,7 +196,7 @@ class course_mod_add {
                 // Section doesn't already exist so create it in normal manner
                // $sectionid = add_mod_to_section($newcm); JAC change 20160809
                // requires course_add_cm_to_section($courseorid, $cmid, $sectionnum, $beforemod = null)
-                $sectionid = course_add_cm_to_section($newcm->course, $newcm->module, $newcm->section);
+                $sectionid = course_add_cm_to_section($newcm->course, $newcm->coursemodule, $newcm->section);
             } else {
                 // Moodle's add_mod_to_section add before functionality is broken so we have to do this here
                 $section->sequence = trim($section->sequence);
@@ -210,7 +210,7 @@ class course_mod_add {
             }
         } else {
            // $sectionid = add_mod_to_section($newcm); JAC change 20160809
-            $sectionid = course_add_cm_to_section($newcm->course, $newcm->module, $newcm->section);
+            $sectionid = course_add_cm_to_section($newcm->course, $newcm->coursemodule, $newcm->section);
         }
         $DB->set_field('course_modules', 'section', $sectionid, array('id'=>$newcm->coursemodule));
 
