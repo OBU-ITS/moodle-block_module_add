@@ -72,15 +72,20 @@ class course_mod_add {
                 return false;
             }
 
-            // Trigger a mod_deleted event with information about this module.
-            $eventdata = new stdClass();
-            $eventdata->modulename = $cm->modname;
-            $eventdata->cmid       = $cm->id;
-            $eventdata->courseid   = $course->id;
-            $eventdata->userid     = 0;
-            events_trigger('mod_deleted', $eventdata);
-        }
-
+			// Trigger event for course module delete action.
+            $event = \core\event\course_module_deleted::create(array(
+                'courseid' => $course->id,
+                'context'  => context_module::instance($cm->id),
+                'objectid' => $cm->id,
+                'other'    => array(
+                    'modulename' => $cm->modname,
+                    'instanceid'   => $cm->instance,
+                )
+            ));
+            $event->add_record_snapshot('course_modules', $cm);
+            $event->trigger();
+       }
+		
         return true;
     }
 
@@ -194,8 +199,6 @@ class course_mod_add {
         if ($atstart) {
             if (!$section = $DB->get_record('course_sections', array('course'=>$newcm->course, 'section'=>$newcm->section))) {
                 // Section doesn't already exist so create it in normal manner
-               // $sectionid = add_mod_to_section($newcm); JAC change 20160809
-               // requires course_add_cm_to_section($courseorid, $cmid, $sectionnum, $beforemod = null)
                 $sectionid = course_add_cm_to_section($newcm->course, $newcm->coursemodule, $newcm->section);
             } else {
                 // Moodle's add_mod_to_section add before functionality is broken so we have to do this here
@@ -209,7 +212,6 @@ class course_mod_add {
                 $sectionid = $section->id;
             }
         } else {
-           // $sectionid = add_mod_to_section($newcm); JAC change 20160809
             $sectionid = course_add_cm_to_section($newcm->course, $newcm->coursemodule, $newcm->section);
         }
         $DB->set_field('course_modules', 'section', $sectionid, array('id'=>$newcm->coursemodule));
@@ -230,15 +232,13 @@ class course_mod_add {
             }
         }
  
-        // Trigger mod_created event with information about this module.
-        $eventname = 'mod_created';
-        $eventdata = new stdClass();
-        $eventdata->modulename = $module->name;
-        $eventdata->name       = $newcm->name;
-        $eventdata->cmid       = $newcm->coursemodule;
-        $eventdata->courseid   = $course->id;
-        $eventdata->userid     = 0;
-        events_trigger($eventname, $eventdata);
+		// Trigger mod_created event with information about this module
+		// Api create_from_cm expects modname and id properties
+		$eventdata = clone $newcm;
+		$eventdata->modname = $newcm->modulename;
+		$eventdata->id = $newcm->coursemodule;
+		$event = \core\event\course_module_created::create_from_cm($eventdata, context_module::instance($newcm->coursemodule));
+		$event->trigger();
     
         // Rebuild course cache
         rebuild_course_cache($course->id);
