@@ -18,10 +18,12 @@
  *
  * @package    block_module_add
  * @author     Peter Andrew
- * @copyright  2016, Oxford Brookes University
+ * @copyright  2018, Oxford Brookes University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  */
+
+$string['privacy:metadata'] = 'The Course-Module Add block does not store any personal data.';
 
 $string['pluginname'] = 'Course-Module Add';
 $string['addmodule'] = 'Add module to course(s)';
