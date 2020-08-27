@@ -65,7 +65,7 @@ class course_mod_add {
                 return false;
             }
 
-            if (!delete_course_module($cm->id)) {
+            if (!course_delete_module($cm->id)) {
                 return false;
             }
             if (!delete_mod_from_section($cm->id, $cm->section)) {
